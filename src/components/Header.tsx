@@ -1,8 +1,11 @@
 import { useState } from "react";
 import Icon from "@/components/ui/icon";
+import { useCart } from "@/hooks/useCart";
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const { getTotalItems } = useCart();
+  const totalItems = getTotalItems();
 
   return (
     <header className="bg-white shadow-sm border-b border-gray-100">
@@ -47,9 +50,11 @@ const Header = () => {
           <div className="flex items-center space-x-4">
             <button className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
               <Icon name="ShoppingCart" size={24} />
-              <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                0
-              </span>
+              {totalItems > 0 && (
+                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
+                  {totalItems}
+                </span>
+              )}
             </button>
 
             {/* Mobile menu button */}

@@ -1,6 +1,8 @@
 import Icon from "@/components/ui/icon";
+import { useCart } from "@/hooks/useCart";
 
 const PopularCars = () => {
+  const { addToCart, isInCart } = useCart();
   const cars = [
     {
       id: 1,
@@ -93,8 +95,20 @@ const PopularCars = () => {
                   <span className="text-2xl font-bold text-blue-600">
                     {car.price} ₽
                   </span>
-                  <button className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors">
-                    <Icon name="Plus" size={16} />
+                  <button
+                    onClick={() => addToCart(car)}
+                    disabled={isInCart(car.id)}
+                    className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
+                      isInCart(car.id)
+                        ? "bg-green-600 text-white cursor-not-allowed"
+                        : "bg-blue-600 hover:bg-blue-700 text-white"
+                    }`}
+                  >
+                    <Icon
+                      name={isInCart(car.id) ? "Check" : "ShoppingCart"}
+                      size={16}
+                    />
+                    {isInCart(car.id) ? "В корзине" : "В корзину"}
                   </button>
                 </div>
               </div>
