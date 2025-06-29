@@ -1,9 +1,7 @@
-import { useState } from "react";
 import Icon from "@/components/ui/icon";
 import { useCart } from "@/hooks/useCart";
 
 const Header = () => {
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { getTotalItems } = useCart();
   const totalItems = getTotalItems();
 
@@ -18,36 +16,8 @@ const Header = () => {
             </h1>
           </div>
 
-          {/* Navigation - Desktop */}
-          <nav className="hidden md:flex space-x-8">
-            <a
-              href="/"
-              className="text-gray-900 hover:text-blue-600 font-medium transition-colors"
-            >
-              Главная
-            </a>
-            <a
-              href="/catalog"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Каталог
-            </a>
-            <a
-              href="/about"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              О нас
-            </a>
-            <a
-              href="/contacts"
-              className="text-gray-700 hover:text-blue-600 font-medium transition-colors"
-            >
-              Контакты
-            </a>
-          </nav>
-
-          {/* Cart & Mobile Menu */}
-          <div className="flex items-center space-x-4">
+          {/* Cart */}
+          <div className="flex items-center">
             <button className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
               <Icon name="ShoppingCart" size={24} />
               {totalItems > 0 && (
@@ -56,48 +26,8 @@ const Header = () => {
                 </span>
               )}
             </button>
-
-            {/* Mobile menu button */}
-            <button
-              className="md:hidden p-2 text-gray-700 hover:text-blue-600"
-              onClick={() => setIsMenuOpen(!isMenuOpen)}
-            >
-              <Icon name={isMenuOpen ? "X" : "Menu"} size={24} />
-            </button>
           </div>
         </div>
-
-        {/* Mobile Navigation */}
-        {isMenuOpen && (
-          <div className="md:hidden py-4 border-t border-gray-100">
-            <nav className="flex flex-col space-y-3">
-              <a
-                href="/"
-                className="text-gray-900 hover:text-blue-600 font-medium"
-              >
-                Главная
-              </a>
-              <a
-                href="/catalog"
-                className="text-gray-700 hover:text-blue-600 font-medium"
-              >
-                Каталог
-              </a>
-              <a
-                href="/about"
-                className="text-gray-700 hover:text-blue-600 font-medium"
-              >
-                О нас
-              </a>
-              <a
-                href="/contacts"
-                className="text-gray-700 hover:text-blue-600 font-medium"
-              >
-                Контакты
-              </a>
-            </nav>
-          </div>
-        )}
       </div>
     </header>
   );
