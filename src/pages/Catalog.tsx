@@ -1,140 +1,206 @@
+import { useState } from "react";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import Icon from "@/components/ui/icon";
 import { useCart } from "@/hooks/useCart";
 
-const Catalog = () => {
-  const { addToCart, isInCart } = useCart();
+const products = [
+  {
+    id: 1,
+    name: "iPhone 15 Pro",
+    price: 120000,
+    category: "phones",
+    image:
+      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop",
+    description: "Новейший флагманский смартфон Apple",
+  },
+  {
+    id: 2,
+    name: "MacBook Pro 14",
+    price: 250000,
+    category: "laptops",
+    image:
+      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
+    description: "Профессиональный ноутбук для творчества",
+  },
+  {
+    id: 3,
+    name: "iPad Air",
+    price: 80000,
+    category: "tablets",
+    image:
+      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop",
+    description: "Планшет для работы и развлечений",
+  },
+  {
+    id: 4,
+    name: "AirPods Pro",
+    price: 25000,
+    category: "accessories",
+    image:
+      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop",
+    description: "Беспроводные наушники с шумоподавлением",
+  },
+  {
+    id: 5,
+    name: "Samsung Galaxy S24",
+    price: 95000,
+    category: "phones",
+    image:
+      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop",
+    description: "Флагманский Android смартфон",
+  },
+  {
+    id: 6,
+    name: "Dell XPS 13",
+    price: 180000,
+    category: "laptops",
+    image:
+      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=400&fit=crop",
+    description: "Ультрабук для бизнеса",
+  },
+];
 
-  const cars = [
-    {
-      id: 5,
-      name: "Volkswagen Golf",
-      year: 2023,
-      price: "2 400 000",
-      image:
-        "https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?w=400&h=300&fit=crop",
-      specs: ["1.4L", "Автомат", "Бензин"],
-    },
-    {
-      id: 6,
-      name: "Honda CR-V",
-      year: 2022,
-      price: "3 100 000",
-      image:
-        "https://images.unsplash.com/photo-1602882304721-53b4bd1b6829?w=400&h=300&fit=crop",
-      specs: ["1.5L", "Автомат", "Бензин"],
-    },
-    {
-      id: 7,
-      name: "Ford Focus",
-      year: 2023,
-      price: "1 950 000",
-      image:
-        "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=300&fit=crop",
-      specs: ["1.6L", "Механика", "Бензин"],
-    },
-    {
-      id: 8,
-      name: "Nissan Qashqai",
-      year: 2022,
-      price: "2 750 000",
-      image:
-        "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=300&fit=crop",
-      specs: ["2.0L", "Автомат", "Бензин"],
-    },
-    {
-      id: 9,
-      name: "Hyundai Tucson",
-      year: 2023,
-      price: "2 900 000",
-      image:
-        "https://images.unsplash.com/photo-1617788138017-80ad40651399?w=400&h=300&fit=crop",
-      specs: ["1.6L", "Автомат", "Бензин"],
-    },
-    {
-      id: 10,
-      name: "Mazda CX-5",
-      year: 2022,
-      price: "3 200 000",
-      image:
-        "https://images.unsplash.com/photo-1567395787002-d8bf8d34fa96?w=400&h=300&fit=crop",
-      specs: ["2.5L", "Автомат", "Бензин"],
-    },
-  ];
+const categories = [
+  { value: "all", label: "Все категории" },
+  { value: "phones", label: "Смартфоны" },
+  { value: "laptops", label: "Ноутбуки" },
+  { value: "tablets", label: "Планшеты" },
+  { value: "accessories", label: "Аксессуары" },
+];
+
+export default function Catalog() {
+  const [searchTerm, setSearchTerm] = useState("");
+  const [selectedCategory, setSelectedCategory] = useState("all");
+  const [sortBy, setSortBy] = useState("name");
+  const { addToCart } = useCart();
+
+  const filteredProducts = products
+    .filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(searchTerm.toLowerCase());
+      const matchesCategory =
+        selectedCategory === "all" || product.category === selectedCategory;
+      return matchesSearch && matchesCategory;
+    })
+    .sort((a, b) => {
+      if (sortBy === "price-asc") return a.price - b.price;
+      if (sortBy === "price-desc") return b.price - a.price;
+      return a.name.localeCompare(b.name);
+    });
+
+  const handleAddToCart = (product: (typeof products)[0]) => {
+    addToCart({
+      id: product.id,
+      name: product.name,
+      price: product.price,
+      image: product.image,
+    });
+  };
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-      <div className="text-center mb-12">
-        <h1 className="text-4xl font-bold text-gray-900 mb-4">
-          🚗 Каталог автомобилей
-        </h1>
-        <p className="text-xl text-gray-600">
-          Найдите идеальный автомобиль для ваших приключений
-        </p>
+    <div className="container mx-auto px-4 py-8">
+      <div className="mb-8">
+        <h1 className="text-3xl font-bold mb-6">Каталог товаров</h1>
+
+        <div className="flex flex-col md:flex-row gap-4 mb-6">
+          <div className="flex-1">
+            <Input
+              placeholder="Поиск товаров..."
+              value={searchTerm}
+              onChange={(e) => setSearchTerm(e.target.value)}
+              className="w-full"
+            />
+          </div>
+
+          <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              {categories.map((category) => (
+                <SelectItem key={category.value} value={category.value}>
+                  {category.label}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Select value={sortBy} onValueChange={setSortBy}>
+            <SelectTrigger className="w-full md:w-48">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="name">По названию</SelectItem>
+              <SelectItem value="price-asc">По цене (возр.)</SelectItem>
+              <SelectItem value="price-desc">По цене (убыв.)</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {cars.map((car) => (
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        {filteredProducts.map((product) => (
           <div
-            key={car.id}
-            className="bg-white border border-gray-200 rounded-xl overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:-translate-y-1"
+            key={product.id}
+            className="bg-white rounded-lg border shadow-sm hover:shadow-md transition-shadow"
           >
-            <div className="relative">
+            <div className="aspect-square overflow-hidden rounded-t-lg">
               <img
-                src={car.image}
-                alt={car.name}
-                className="w-full h-48 object-cover"
+                src={product.image}
+                alt={product.name}
+                className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
               />
-              <div className="absolute top-4 right-4 bg-white rounded-full p-2 shadow-lg">
-                <Icon
-                  name="Heart"
-                  size={20}
-                  className="text-gray-400 hover:text-red-500 cursor-pointer transition-colors"
-                />
-              </div>
             </div>
 
-            <div className="p-6">
-              <h3 className="text-xl font-semibold text-gray-900 mb-2">
-                {car.name} {car.year}
-              </h3>
-
-              <div className="flex flex-wrap gap-2 mb-4">
-                {car.specs.map((spec, index) => (
-                  <span
-                    key={index}
-                    className="px-2 py-1 bg-gray-100 text-gray-600 text-sm rounded"
-                  >
-                    {spec}
-                  </span>
-                ))}
+            <div className="p-4">
+              <div className="mb-2">
+                <Badge variant="secondary" className="text-xs">
+                  {categories.find((c) => c.value === product.category)?.label}
+                </Badge>
               </div>
 
-              <div className="flex justify-between items-center">
-                <span className="text-2xl font-bold text-blue-600">
-                  {car.price} ₽
+              <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
+              <p className="text-gray-600 text-sm mb-3">
+                {product.description}
+              </p>
+
+              <div className="flex items-center justify-between">
+                <span className="text-2xl font-bold text-primary">
+                  {product.price.toLocaleString()}₽
                 </span>
-                <button
-                  onClick={() => addToCart(car)}
-                  disabled={isInCart(car.id)}
-                  className={`px-4 py-2 rounded-lg transition-colors flex items-center gap-2 ${
-                    isInCart(car.id)
-                      ? "bg-green-600 text-white cursor-not-allowed"
-                      : "bg-blue-600 hover:bg-blue-700 text-white"
-                  }`}
+                <Button
+                  onClick={() => handleAddToCart(product)}
+                  size="sm"
+                  className="flex items-center gap-2"
                 >
-                  <Icon
-                    name={isInCart(car.id) ? "Check" : "ShoppingCart"}
-                    size={16}
-                  />
-                  {isInCart(car.id) ? "В корзине" : "В корзину"}
-                </button>
+                  <Icon name="ShoppingCart" size={16} />В корзину
+                </Button>
               </div>
             </div>
           </div>
         ))}
       </div>
+
+      {filteredProducts.length === 0 && (
+        <div className="text-center py-12">
+          <Icon
+            name="Search"
+            size={48}
+            className="text-gray-400 mx-auto mb-4"
+          />
+          <p className="text-gray-500 text-lg">Товары не найдены</p>
+        </div>
+      )}
     </div>
   );
-};
-
-export default Catalog;
+}

@@ -1,74 +1,86 @@
-import { useState, useCallback } from "react";
+import { useState, useEffect } from "react";
 import { toast } from "@/hooks/use-toast";
 
 export interface CartItem {
   id: number;
   name: string;
-  year: number;
-  price: string;
+  price: number;
   image: string;
-  specs: string[];
   quantity: number;
 }
 
-export interface Car {
-  id: number;
-  name: string;
-  year: number;
-  price: string;
-  image: string;
-  specs: string[];
-}
-
-export const useCart = () => {
+export function useCart() {
   const [items, setItems] = useState<CartItem[]>([]);
 
-  const addToCart = useCallback((car: Car) => {
+  // Загружаем корзину из localStorage при запуске
+  useEffect(() => {
+    const savedCart = localStorage.getItem("cart");
+    if (savedCart) {
+      setItems(JSON.parse(savedCart));
+    }
+  }, []);
+
+  // Сохраняем корзину в localStorage при изменении
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(items));
+  }, [items]);
+
+  const addToCart = (product: Omit<CartItem, "quantity">) => {
     setItems((prevItems) => {
-      const existingItem = prevItems.find((item) => item.id === car.id);
+      const existingItem = prevItems.find((item) => item.id === product.id);
 
       if (existingItem) {
         toast({
-          title: "Автомобиль уже в корзине",
-          description: `${car.name} ${car.year} уже добавлен в корзину`,
+          title: "Товар добавлен",
+          description: `${product.name} добавлен в корзину`,
         });
-        return prevItems;
+        return prevItems.map((item) =>
+          item.id === product.id
+            ? { ...item, quantity: item.quantity + 1 }
+            : item,
+        );
+      } else {
+        toast({
+          title: "Товар добавлен",
+          description: `${product.name} добавлен в корзину`,
+        });
+        return [...prevItems, { ...product, quantity: 1 }];
       }
-
-      const newItem: CartItem = {
-        ...car,
-        quantity: 1,
-      };
-
-      toast({
-        title: "Добавлено в корзину! 🚗",
-        description: `${car.name} ${car.year} добавлен в корзину`,
-      });
-
-      return [...prevItems, newItem];
     });
-  }, []);
+  };
 
-  const removeFromCart = useCallback((carId: number) => {
-    setItems((prevItems) => prevItems.filter((item) => item.id !== carId));
-  }, []);
+  const removeFromCart = (id: number) => {
+    setItems((prevItems) => prevItems.filter((item) => item.id !== id));
+  };
 
-  const getTotalItems = useCallback(() => {
-    return items.reduce((total, item) => total + item.quantity, 0);
-  }, [items]);
+  const updateQuantity = (id: number, quantity: number) => {
+    if (quantity <= 0) {
+      removeFromCart(id);
+      return;
+    }
 
-  const isInCart = useCallback(
-    (carId: number) => {
-      return items.some((item) => item.id === carId);
-    },
-    [items],
+    setItems((prevItems) =>
+      prevItems.map((item) => (item.id === id ? { ...item, quantity } : item)),
+    );
+  };
+
+  const clearCart = () => {
+    setItems([]);
+  };
+
+  const totalPrice = items.reduce(
+    (sum, item) => sum + item.price * item.quantity,
+    0,
   );
+  const totalItems = items.reduce((sum, item) => sum + item.quantity, 0);
 
   return {
     items,
     addToCart,
     removeFromCart,
-    getTotalItems,
-    isInCart,
+    updateQuantity,
+    clearCart,
+    totalPrice,
+    totalItems,
   };
-};
+}

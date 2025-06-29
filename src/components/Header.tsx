@@ -1,63 +1,44 @@
-import { Link, useLocation } from "react-router-dom";
+import { Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
 import Icon from "@/components/ui/icon";
-import { useCart } from "@/hooks/useCart";
+import CartSheet from "@/components/CartSheet";
 
-const Header = () => {
-  const { getTotalItems } = useCart();
-  const totalItems = getTotalItems();
-  const location = useLocation();
-
-  const navigation = [
-    { name: "Главная", href: "/" },
-    { name: "Каталог", href: "/catalog" },
-    { name: "О нас", href: "/about" },
-  ];
-
+export default function Header() {
   return (
-    <header className="bg-white shadow-sm border-b border-gray-100">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center h-16">
-          {/* Logo */}
-          <div className="flex items-center">
-            <Link to="/" className="flex items-center">
-              <h1 className="text-2xl font-bold text-gray-900">
-                🏴‍☠️ <span className="text-blue-600">Пират</span>
-              </h1>
-            </Link>
-          </div>
+    <header className="bg-white border-b">
+      <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <Link to="/" className="text-2xl font-bold text-primary">
+          TechShop
+        </Link>
 
-          {/* Navigation */}
-          <nav className="hidden md:flex space-x-8">
-            {navigation.map((item) => (
-              <Link
-                key={item.name}
-                to={item.href}
-                className={`px-3 py-2 rounded-md text-sm font-medium transition-colors ${
-                  location.pathname === item.href
-                    ? "text-blue-600 bg-blue-50"
-                    : "text-gray-700 hover:text-blue-600 hover:bg-gray-50"
-                }`}
-              >
-                {item.name}
-              </Link>
-            ))}
-          </nav>
+        <nav className="hidden md:flex space-x-8">
+          <Link
+            to="/"
+            className="text-gray-600 hover:text-primary transition-colors"
+          >
+            Главная
+          </Link>
+          <Link
+            to="/catalog"
+            className="text-gray-600 hover:text-primary transition-colors"
+          >
+            Каталог
+          </Link>
+          <Link
+            to="/about"
+            className="text-gray-600 hover:text-primary transition-colors"
+          >
+            О нас
+          </Link>
+        </nav>
 
-          {/* Cart */}
-          <div className="flex items-center">
-            <button className="relative p-2 text-gray-700 hover:text-blue-600 transition-colors">
-              <Icon name="ShoppingCart" size={24} />
-              {totalItems > 0 && (
-                <span className="absolute -top-1 -right-1 bg-blue-600 text-white text-xs rounded-full h-5 w-5 flex items-center justify-center">
-                  {totalItems}
-                </span>
-              )}
-            </button>
-          </div>
+        <div className="flex items-center space-x-4">
+          <CartSheet />
+          <Button variant="outline" size="sm">
+            <Icon name="User" size={16} />
+          </Button>
         </div>
       </div>
     </header>
   );
-};
-
-export default Header;
+}
