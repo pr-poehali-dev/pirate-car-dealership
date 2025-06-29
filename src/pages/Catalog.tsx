@@ -13,68 +13,176 @@ import Icon from "@/components/ui/icon";
 import { useCart } from "@/hooks/useCart";
 
 const products = [
+  // Седаны
   {
     id: 1,
-    name: "iPhone 15 Pro",
-    price: 120000,
-    category: "phones",
+    name: "Toyota Camry",
+    price: 2850000,
+    category: "sedans",
+    year: 2023,
+    engine: "2.5L",
+    transmission: "Автомат",
+    fuel: "Бензин",
     image:
-      "https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=400&h=400&fit=crop",
-    description: "Новейший флагманский смартфон Apple",
+      "https://images.unsplash.com/photo-1621007947382-bb3c3994e3fb?w=400&h=400&fit=crop",
+    description: "Надежный семейный седан с комфортом и экономичностью",
   },
   {
     id: 2,
-    name: "MacBook Pro 14",
-    price: 250000,
-    category: "laptops",
+    name: "Mercedes C-Class",
+    price: 3200000,
+    category: "sedans",
+    year: 2023,
+    engine: "2.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
     image:
-      "https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=400&h=400&fit=crop",
-    description: "Профессиональный ноутбук для творчества",
+      "https://images.unsplash.com/photo-1618843479313-40f8afb4b4d8?w=400&h=400&fit=crop",
+    description: "Премиальный седан с передовыми технологиями",
   },
   {
     id: 3,
-    name: "iPad Air",
-    price: 80000,
-    category: "tablets",
+    name: "BMW 3 Series",
+    price: 3500000,
+    category: "sedans",
+    year: 2024,
+    engine: "2.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
     image:
-      "https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=400&h=400&fit=crop",
-    description: "Планшет для работы и развлечений",
+      "https://images.unsplash.com/photo-1555215695-3004980ad54e?w=400&h=400&fit=crop",
+    description: "Спортивный седан с динамичным характером",
   },
+  // Внедорожники
   {
     id: 4,
-    name: "AirPods Pro",
-    price: 25000,
-    category: "accessories",
+    name: "BMW X5",
+    price: 4950000,
+    category: "suvs",
+    year: 2022,
+    engine: "3.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
     image:
-      "https://images.unsplash.com/photo-1606220945770-b5b6c2c55bf1?w=400&h=400&fit=crop",
-    description: "Беспроводные наушники с шумоподавлением",
+      "https://images.unsplash.com/photo-1606664515524-ed2f786a0bd6?w=400&h=400&fit=crop",
+    description: "Роскошный внедорожник для города и бездорожья",
   },
   {
     id: 5,
-    name: "Samsung Galaxy S24",
-    price: 95000,
-    category: "phones",
+    name: "Audi Q7",
+    price: 5100000,
+    category: "suvs",
+    year: 2023,
+    engine: "3.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
     image:
-      "https://images.unsplash.com/photo-1511707171634-5f897ff02aa9?w=400&h=400&fit=crop",
-    description: "Флагманский Android смартфон",
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=400&fit=crop",
+    description: "Семейный внедорожник премиум-класса",
   },
   {
     id: 6,
-    name: "Dell XPS 13",
-    price: 180000,
-    category: "laptops",
+    name: "Toyota RAV4",
+    price: 2900000,
+    category: "suvs",
+    year: 2023,
+    engine: "2.5L",
+    transmission: "Автомат",
+    fuel: "Бензин",
     image:
-      "https://images.unsplash.com/photo-1593642632823-8f785ba67e45?w=400&h=400&fit=crop",
-    description: "Ультрабук для бизнеса",
+      "https://images.unsplash.com/photo-1566473965997-3de9c817e938?w=400&h=400&fit=crop",
+    description: "Надежный компактный кроссовер",
+  },
+  // Хэтчбеки
+  {
+    id: 7,
+    name: "Volkswagen Golf",
+    price: 2200000,
+    category: "hatchbacks",
+    year: 2023,
+    engine: "1.4L",
+    transmission: "Автомат",
+    fuel: "Бензин",
+    image:
+      "https://images.unsplash.com/photo-1583121274602-3e2820c69888?w=400&h=400&fit=crop",
+    description: "Компактный хэтчбек для городской жизни",
+  },
+  {
+    id: 8,
+    name: "BMW 1 Series",
+    price: 2800000,
+    category: "hatchbacks",
+    year: 2023,
+    engine: "1.5L",
+    transmission: "Автомат",
+    fuel: "Бензин",
+    image:
+      "https://images.unsplash.com/photo-1552519507-da3b142c6e3d?w=400&h=400&fit=crop",
+    description: "Премиальный компактный хэтчбек",
+  },
+  // Купе
+  {
+    id: 9,
+    name: "BMW 4 Series Coupe",
+    price: 4200000,
+    category: "coupe",
+    year: 2023,
+    engine: "2.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
+    image:
+      "https://images.unsplash.com/photo-1503376780353-7e6692767b70?w=400&h=400&fit=crop",
+    description: "Элегантное спортивное купе",
+  },
+  {
+    id: 10,
+    name: "Mercedes C-Class Coupe",
+    price: 3800000,
+    category: "coupe",
+    year: 2022,
+    engine: "2.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
+    image:
+      "https://images.unsplash.com/photo-1544636331-e26879cd4d9b?w=400&h=400&fit=crop",
+    description: "Стильное купе с роскошным интерьером",
+  },
+  // Кабриолеты
+  {
+    id: 11,
+    name: "BMW Z4",
+    price: 4500000,
+    category: "convertibles",
+    year: 2023,
+    engine: "2.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
+    image:
+      "https://images.unsplash.com/photo-1502877338535-766e1452684a?w=400&h=400&fit=crop",
+    description: "Спортивный родстер для настоящих ценителей",
+  },
+  {
+    id: 12,
+    name: "Mercedes SL-Class",
+    price: 6200000,
+    category: "convertibles",
+    year: 2023,
+    engine: "3.0L",
+    transmission: "Автомат",
+    fuel: "Бензин",
+    image:
+      "https://images.unsplash.com/photo-1494905998402-395d579af36f?w=400&h=400&fit=crop",
+    description: "Роскошный кабриолет высшего класса",
   },
 ];
 
 const categories = [
   { value: "all", label: "Все категории" },
-  { value: "phones", label: "Смартфоны" },
-  { value: "laptops", label: "Ноутбуки" },
-  { value: "tablets", label: "Планшеты" },
-  { value: "accessories", label: "Аксессуары" },
+  { value: "sedans", label: "Седаны" },
+  { value: "suvs", label: "Внедорожники" },
+  { value: "hatchbacks", label: "Хэтчбеки" },
+  { value: "coupe", label: "Купе" },
+  { value: "convertibles", label: "Кабриолеты" },
 ];
 
 export default function Catalog() {
@@ -110,12 +218,12 @@ export default function Catalog() {
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-8">
-        <h1 className="text-3xl font-bold mb-6">Каталог товаров</h1>
+        <h1 className="text-3xl font-bold mb-6">Каталог автомобилей</h1>
 
         <div className="flex flex-col md:flex-row gap-4 mb-6">
           <div className="flex-1">
             <Input
-              placeholder="Поиск товаров..."
+              placeholder="Поиск автомобилей..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
               className="w-full"
@@ -169,7 +277,20 @@ export default function Catalog() {
                 </Badge>
               </div>
 
-              <h3 className="font-semibold text-lg mb-2">{product.name}</h3>
+              <h3 className="font-semibold text-lg mb-2">
+                {product.name} {product.year}
+              </h3>
+              <div className="flex flex-wrap gap-1 mb-2">
+                <span className="px-2 py-1 bg-blue-50 text-blue-600 text-xs rounded">
+                  {product.engine}
+                </span>
+                <span className="px-2 py-1 bg-green-50 text-green-600 text-xs rounded">
+                  {product.transmission}
+                </span>
+                <span className="px-2 py-1 bg-orange-50 text-orange-600 text-xs rounded">
+                  {product.fuel}
+                </span>
+              </div>
               <p className="text-gray-600 text-sm mb-3">
                 {product.description}
               </p>
@@ -198,7 +319,7 @@ export default function Catalog() {
             size={48}
             className="text-gray-400 mx-auto mb-4"
           />
-          <p className="text-gray-500 text-lg">Товары не найдены</p>
+          <p className="text-gray-500 text-lg">Автомобили не найдены</p>
         </div>
       )}
     </div>
